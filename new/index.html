@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DX Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-router-dom@6/dist/umd/react-router-dom.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      scroll-behavior: smooth;
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    }
+    .gradient-text {
+      background: linear-gradient(to right, #7c3aed, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .animate-fade-in {
+      animation: fadeIn 1.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .project-card, .blog-card, .gallery-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .project-card:hover, .blog-card:hover, .gallery-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 40px rgba(79, 70, 229, 0.3);
+    }
+    .project-img, .gallery-img {
+      transition: transform 0.5s ease;
+    }
+    .project-card:hover .project-img, .gallery-card:hover .gallery-img {
+      transform: scale(1.05);
+    }
+    .tag-btn.active {
+      background-color: #4f46e5;
+      color: white;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-tr from-gray-900 via-black to-gray-900 text-white">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+    const { BrowserRouter, Routes, Route, Link, useNavigate } = ReactRouterDOM;
+
+    // Simulated backend data
+    const initialData = {
+      projects: [
+        {
+          id: '1',
+          index: 1,
+          title: 'DX Mark 1',
+          description: 'A VTOL drone inspired by the V-22 Osprey, equipped with dual motors for ISR and rescue missions.',
+          image: 'https://via.placeholder.com/400x300?text=DX+Mark+1',
+          tags: ['Drones', 'Embedded C', 'LoRa'],
+          link: '#'
+        },
+        {
+          id: '2',
+          index: 2,
+          title: 'WiPose',
+          description: 'A privacy-centric human pose estimation system using CSI data.',
+          image: 'https://via.placeholder.com/400x300?text=WiPose',
+          tags: ['AI', 'Computer Vision', 'Python', 'TensorFlow'],
+          link: '#'
+        },
+        {
+          id: '3',
+          index: 3,
+          title: 'Hindi OCR',
+          description: 'A high-accuracy OCR system for Hindi text, trained on 100k+ annotated images.',
+          image: 'https://via.placeholder.com/400x300?text=Hindi+OCR',
+          tags: ['AI', 'Computer Vision', 'Python', 'OpenCV'],
+          link: '#'
+        },
+        {
+          id: '4',
+          index: 4,
+          title: 'Disaster Prediction',
+          description: 'AI-powered system for predicting natural disasters using satellite data.',
+          image: 'https://via.placeholder.com/400x300?text=Disaster+Prediction',
+          tags: ['AI', 'Python'],
+          link: '#'
+        }
+      ],
+      blogs: [
+        {
+          id: '1',
+          index: 1,
+          title: 'Why I Built WiPose',
+          description: 'Dive into the fusion of wireless sensing and human activity recognition using CSI data.',
+          link: '#'
+        },
+        {
+          id: '2',
+          index: 2,
+          title: 'Inside the DX Mark 1 Design',
+          description: 'Unpacking the engineering behind a budget-friendly VTOL drone.',
+          link: '#'
+        },
+        {
+          id: '3',
+          index: 3,
+          title: 'The Future of OCR',
+          description: 'Exploring advancements in optical character recognition for regional languages.',
+          link: '#'
+        }
+      ],
+      gallery: [
+        {
+          id: '1',
+          index: 1,
+          title: 'DX Mark 1 Drone',
+          image: 'https://via.placeholder.com/300x200?text=DX+Mark+1',
+          alt: 'DX Mark 1 Drone'
+        },
+        {
+          id: '2',
+          index: 2,
+          title: 'WiPose System',
+          image: 'https://via.placeholder.com/300x200?text=WiPose',
+          alt: 'WiPose System'
+        },
+        {
+          id: '3',
+          index: 3,
+          title: 'Hindi OCR Interface',
+          image: 'https://via.placeholder.com/300x200?text=Hindi+OCR',
+          alt: 'Hindi OCR Interface'
+        },
+        {
+          id: '4',
+          index: 4,
+          title: 'Research Presentation',
+          image: 'https://via.placeholder.com/300x200?text=Research',
+          alt: 'Research Presentation'
+        },
+        {
+          id: '5',
+          index: 5,
+          title: 'Drone Testing',
+          image: 'https://via.placeholder.com/300x200?text=Drone+Testing',
+          alt: 'Drone Testing'
+        }
+      ]
+    };
+
+    // Project Card Component
+    const ProjectCard = ({ project }) => (
+      <div className="glass p-6 rounded-2xl project-card overflow-hidden animate-fade-in">
+        <div className="relative w-full h-48 mb-4 overflow-hidden rounded-lg">
+          <img src={project.image} alt={project.title} className="project-img w-full h-full object-cover" />
+        </div>
+        <h3 className="text-2xl font-semibold mb-3 gradient-text">{project.title}</h3>
+        <p className="text-gray-400 mb-4 text-sm leading-relaxed">{project.description}</p>
+        <div className="flex justify-between items-center">
+          <a href={project.link} className="text-indigo-400 hover:text-indigo-300 text-sm font-medium transition">View Project →</a>
+          <div className="flex space-x-2">
+            {project.tags.map(tag => (
+              <span key={tag} className="bg-indigo-900/50 px-2 py-1 rounded text-xs text-indigo-300">{tag}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+
+    // Blog Card Component
+    const BlogCard = ({ blog }) => (
+      <div className="glass p-6 rounded-xl blog-card hover:scale-105 transition duration-300">
+        <h3 className="text-2xl font-semibold mb-3 gradient-text">{blog.title}</h3>
+        <p className="text-gray-400 mb-4">{blog.description}</p>
+        <a href={blog.link} className="text-indigo-400 hover:underline">Read More →</a>
+      </div>
+    );
+
+    // Gallery Card Component
+    const GalleryCard = ({ item }) => (
+      <div className="glass p-4 rounded-xl gallery-card hover:opacity-90 transition">
+        <img src={item.image} alt={item.alt} className="gallery-img rounded-xl object-cover w-full h-48" />
+        <p className="text-gray-300 text-center mt-2 text-sm">{item.title}</p>
+      </div>
+    );
+
+    // Navbar Component
+    const Navbar = () => (
+      <header className="w-full fixed top-0 z-50 backdrop-blur-lg bg-black/50 border-b border-white/10">
+        <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
+          <h1 className="text-2xl font-bold text-indigo-400">DX</h1>
+          <nav className="space-x-8 text-sm font-medium text-gray-200">
+            <Link to="/" className="hover:text-indigo-400 transition">Home</Link>
+            <Link to="/projects" className="hover:text-indigo-400 transition">Projects</Link>
+            <Link to="/" onClick={() => document.getElementById('skills').scrollIntoView({ behavior: 'smooth' })} className="hover:text-indigo-400 transition">Skills</Link>
+            <Link to="/" onClick={() => document.getElementById('achievements').scrollIntoView({ behavior: 'smooth' })} className="hover:text-indigo-400 transition">Achievements</Link>
+            <Link to="/blog" className="hover:text-indigo-400 transition">Blog</Link>
+            <Link to="/gallery" className="hover:text-indigo-400 transition">Gallery</Link>
+            <Link to="/" onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })} className="hover:text-indigo-400 transition">Contact</Link>
+            <Link to="/admin" className="hover:text-indigo-400 transition">Admin</Link>
+          </nav>
+        </div>
+      </header>
+    );
+
+    // Home Page Component
+    const HomePage = ({ projects, blogs, gallery }) => (
+      <>
+        <section className="min-h-screen flex items-center justify-center text-center px-4 pt-24">
+          <div className="max-w-4xl animate-fade-in">
+            <h1 className="text-5xl md:text-7xl font-extrabold mb-6 leading-tight gradient-text">Hey, I'm DX</h1>
+            <p className="text-lg md:text-xl text-gray-300 mb-8">Futurist • Drone Developer • AI Enthusiast • Visionary Engineer</p>
+            <div className="space-x-4">
+              <Link to="/" onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })} className="bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-full text-white font-semibold transition duration-300">Hire Me</Link>
+              <Link to="/projects" className="border border-indigo-500 hover:bg-indigo-500/20 px-6 py-3 rounded-full text-white font-semibold transition duration-300">Explore Projects</Link>
+            </div>
+          </div>
+        </section>
+
+        <section className="max-w-7xl mx-auto px-6 py-24">
+          <div className="glass p-10 rounded-2xl animate-fade-in">
+            <h2 className="text-4xl font-bold mb-6 gradient-text">About Me</h2>
+            <p className="text-gray-300 mb-6 leading-relaxed text-lg">
+              I'm a 3rd-year B.Tech CSE student driven by a passion for innovation. My work spans drones, disaster prediction systems, custom OCR, and CSI-based pose estimation.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-gray-400">
+              <ul className="list-disc list-inside space-y-3">
+                <li>Expertise in AI/ML, Computer Vision, and Embedded Systems</li>
+                <li>Published 2 research papers by 3rd year</li>
+                <li>Developed DX Mark 1 drone and WiPose system</li>
+                <li>Exploring defense-tech and autonomous systems</li>
+              </ul>
+              <ul className="list-disc list-inside space-y-3">
+                <li>Proficient in Python, TensorFlow, LoRa, Flutter</li>
+                <li>Passionate about sensing and autonomy</li>
+                <li>Hackathon winner with a research-driven mindset</li>
+                <li>Seeking global MS and internship opportunities</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="projects" className="bg-black/50 py-24 px-6">
+          <h2 className="text-4xl font-bold text-center mb-12 gradient-text animate-fade-in">Featured Projects</h2>
+          <div className="max-w-7xl mx-auto">
+            <div id="project-grid" className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {projects.slice(0, 3).map(project => (
+                <ProjectCard key={project.id} project={project} />
+              ))}
+            </div>
+            <div className="text-center mt-8">
+              <Link to="/projects" className="bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-full text-white font-semibold transition duration-300">Show More</Link>
+            </div>
+          </div>
+        </section>
+
+        <section id="skills" className="max-w-7xl mx-auto py-24 px-6">
+          <h2 className="text-4xl font-bold text-center mb-12 gradient-text">Skills & Tech Stack</h2>
+          <div className="flex flex-wrap justify-center gap-4 text-sm">
+            {['Python', 'TensorFlow', 'OpenCV', 'Embedded C', 'MATLAB', 'LoRa', 'Flutter', 'Git', 'Arduino', 'Linux'].map(skill => (
+              <span key={skill} className="bg-indigo-600 px-4 py-2 rounded-full shadow-md hover:bg-indigo-700 transition">{skill}</span>
+            ))}
+          </div>
+        </section>
+
+        <section id="achievements" className="bg-black/50 py-24 px-6">
+          <h2 className="text-4xl font-bold text-center mb-12 gradient-text">Achievements</h2>
+          <div className="max-w-4xl mx-auto text-center text-gray-300 space-y-6">
+            <p className="flex items-center justify-center gap-2">🏆 <span>Winner - Hackduino 4.0 for DX Mark 1</span></p>
+            <p className="flex items-center justify-center gap-2">📄 <span>Research papers accepted at ICSL 2025 and IEEE MILCOM 2025</span></p>
+            <p className="flex items-center justify-center gap-2">🎓 <span>Selected for MLx: Representation Learning & GenAI</span></p>
+            <p className="flex items-center justify-center gap-2">🛰️ <span>Presented AI-Powered Disaster Prediction at IIT Kanpur</span></p>
+          </div>
+        </section>
+
+        <section id="blog" className="max-w-7xl mx-auto py-24 px-6">
+          <h2 className="text-4xl font-bold text-center mb-12 gradient-text">Blog</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-gray-300">
+            {blogs.slice(0, 2).map(blog => (
+              <BlogCard key={blog.id} blog={blog} />
+            ))}
+          </div>
+          <div className="text-center mt-8">
+            <Link to="/blog" className="bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-full text-white font-semibold transition duration-300">Show More</Link>
+          </div>
+        </section>
+
+        <section id="gallery" className="bg-gray-900/50 py-24 px-6">
+          <h2 className="text-4xl font-bold text-center mb-12 gradient-text">Gallery</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-7xl mx-auto">
+            {gallery.slice(0, 4).map(item => (
+              <GalleryCard key={item.id} item={item} />
+            ))}
+          </div>
+          <div className="text-center mt-8">
+            <Link to="/gallery" className="bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-full text-white font-semibold transition duration-300">Show More</Link>
+          </div>
+        </section>
+
+        <section id="contact" className="bg-gray-800/50 py-24 px-6">
+          <div className="max-w-xl mx-auto text-center">
+            <h2 className="text-4xl font-bold mb-6 gradient-text">Let's Connect</h2>
+            <p className="text-gray-300 mb-8 text-lg">Interested in collaboration, hiring, or mentorship? I'm open to global opportunities.</p>
+            <div className="flex flex-col space-y-4">
+              <input className="p-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Your Name" required />
+              <input className="p-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Email Address" required />
+              <textarea className="p-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="4" placeholder="Your Message" required></textarea>
+              <button className="bg-indigo-600 hover:bg-indigo-700 py-3 rounded-full text-white font-semibold shadow-lg transition duration-300">Send Message</button>
+            </div>
+          </div>
+        </section>
+      </>
+    );
+
+    // Projects Page Component
+    const ProjectsPage = ({ projects }) => {
+      const [filteredProjects, setFilteredProjects] = useState(projects);
+      const [activeTag, setActiveTag] = useState('All');
+
+      const tags = ['All', 'AI', 'Drones', 'Computer Vision'];
+
+      const filterProjects = (tag) => {
+        setActiveTag(tag);
+        if (tag === 'All') {
+          setFilteredProjects(projects);
+        } else {
+          setFilteredProjects(projects.filter(project => project.tags.includes(tag)));
+        }
+      };
+
+      return (
+        <section className="bg-black/50 py-24 px-6 min-h-screen pt-24">
+          <h2 className="text-4xl font-bold text-center mb-12 gradient-text animate-fade-in">All Projects</h2>
+          <div className="max-w-7xl mx-auto">
+            <div className="flex flex-wrap justify-center gap-4 mb-8">
+              {tags.map(tag => (
+                <button
+                  key={tag}
+                  className={`tag-btn px-4 py-2 rounded-full bg-gray-800 text-gray-200 text-sm font-medium hover:bg-indigo-600 hover:text-white transition ${activeTag === tag ? 'active' : ''}`}
+                  onClick={() => filterProjects(tag)}
+                >
+                  {tag}
+                </button>
+              ))}
+ Middlesex University London
+            </div>
+            <div id="project-grid" className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {filteredProjects.sort((a, b) => a.index - b.index).map(project => (
+                <ProjectCard key={project.id} project={project} />
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    // Blog Page Component
+    const BlogPage = ({ blogs }) => (
+      <section className="max-w-7xl mx-auto py-24 px-6 min-h-screen pt-24">
+        <h2 className="text-4xl font-bold text-center mb-12 gradient-text">All Blogs</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-gray-300">
+          {blogs.sort((a, b) => a.index - b.index).map(blog => (
+            <BlogCard key={blog.id} blog={blog} />
+          ))}
+        </div>
+      </section>
+    );
+
+    // Gallery Page Component
+    const GalleryPage = ({ gallery }) => (
+      <section className="bg-gray-900/50 py-24 px-6 min-h-screen pt-24">
+        <h2 className="text-4xl font-bold text-center mb-12 gradient-text">Full Gallery</h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-7xl mx-auto">
+          {gallery.sort((a, b) => a.index - b.index).map(item => (
+            <GalleryCard key={item.id} item={item} />
+          ))}
+        </div>
+      </section>
+    );
+
+    // Admin Panel Component
+    const AdminPanel = ({ data, setData }) => {
+      const navigate = useNavigate();
+      const [isAuthenticated, setIsAuthenticated] = useState(false);
+      const [password, setPassword] = useState('');
+      const [section, setSection] = useState('projects');
+      const [formData, setFormData] = useState({});
+      const [editingId, setEditingId] = useState(null);
+
+      useEffect(() => {
+        const auth = prompt('Enter admin password:');
+        if (auth === 'admin123') { // Simple password for demo
+          setIsAuthenticated(true);
+        } else {
+          navigate('/');
+        }
+      }, [navigate]);
+
+      const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+      };
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        const newData = { ...data };
+        const newItem = { ...formData, id: editingId || Date.now().toString(), index: parseInt(formData.index) || data[section].length + 1 };
+
+        if (section === 'projects') {
+          newItem.tags = formData.tags ? formData.tags.split(',').map(tag => tag.trim()) : [];
+        }
+
+        if (editingId) {
+          newData[section] = newData[section].map(item => item.id === editingId ? newItem : item);
+        } else {
+          newData[section].push(newItem);
+        }
+
+        setData(newData);
+        setFormData({});
+        setEditingId(null);
+      };
+
+      const handleEdit = (item) => {
+        setFormData({ ...item, tags: item.tags ? item.tags.join(', ') : '' });
+        setEditingId(item.id);
+      };
+
+      const handleDelete = (id) => {
+        if (window.confirm('Are you sure you want to delete this item?')) {
+          const newData = { ...data };
+          newData[section] = newData[section].filter(item => item.id !== id);
+          setData(newData);
+        }
+      };
+
+      if (!isAuthenticated) return null;
+
+      return (
+        <section className="max-w-7xl mx-auto py-24 px-6 min-h-screen pt-24">
+          <h2 className="text-4xl font-bold text-center mb-12 gradient-text">Admin Panel</h2>
+          <div className="flex justify-center gap-4 mb-8">
+            {['projects', 'blogs', 'gallery'].map(sec => (
+              <button
+                key={sec}
+                className={`px-4 py-2 rounded-full ${section === sec ? 'bg-indigo-600 text-white' : 'bg-gray-800 text-gray-200'} hover:bg-indigo-600 hover:text-white transition`}
+                onClick={() => { setSection(sec); setFormData({}); setEditingId(null); }}
+              >
+                {sec.charAt(0).toUpperCase() + sec.slice(1)}
+              </button>
+            ))}
+          </div>
+
+          <div className="glass p-6 rounded-xl mb-8">
+            <h3 className="text-2xl font-semibold mb-4 gradient-text">{editingId ? 'Edit' : 'Add'} {section.charAt(0).toUpperCase() + section.slice(1)} Item</h3>
+            <div className="flex flex-col space-y-4">
+              <input
+                name="index"
+                value={formData.index || ''}
+                onChange={handleInputChange}
+                placeholder="Index (Order)"
+                className="p-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                type="number"
+              />
+              <input
+                name="title"
+                value={formData.title || ''}
+                onChange={handleInputChange}
+                placeholder="Title"
+                className="p-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+              {section !== 'gallery' && (
+                <textarea
+                  name="description"
+                  value={formData.description || ''}
+                  onChange={handleInputChange}
+                  placeholder="Description"
+                  className="p-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  rows="4"
+                />
+              )}
+              {section !== 'blogs' && (
+                <input
+                  name="image"
+                  value={formData.image || ''}
+                  onChange={handleInputChange}
+                  placeholder="Image URL"
+                  className="p-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+              )}
+              {section === 'gallery' && (
+                <input
+                  name="alt"
+                  value={formData.alt || ''}
+                  onChange={handleInputChange}
+                  placeholder="Alt Text"
+                  className="p-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+              )}
+              {(section === 'projects' || section === 'blogs') && (
+                <input
+                  name="link"
+                  value={formData.link || ''}
+                  onChange={handleInputChange}
+                  placeholder="Link"
+                  className="p-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+              )}
+              {section === 'projects' && (
+                <input
+                  name="tags"
+                  value={formData.tags || ''}
+                  onChange={handleInputChange}
+                  placeholder="Tags (comma-separated)"
+                  className="p-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+              )}
+              <button
+                onClick={handleSubmit}
+                className="bg-indigo-600 hover:bg-indigo-700 py-3 rounded-full text-white font-semibold shadow-lg transition duration-300"
+              >
+                {editingId ? 'Update' : 'Add'} Item
+              </button>
+            </div>
+          </div>
+
+          <div className="glass p-6 rounded-xl">
+            <h3 className="text-2xl font-semibold mb-4 gradient-text">Manage {section.charAt(0).toUpperCase() + section.slice(1)}</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {data[section].sort((a, b) => a.index - b.index).map(item => (
+                <div key={item.id} className="glass p-4 rounded-xl flex justify-between items-center">
+                  <div>
+                    <p className="font-semibold">{item.title} (Index: {item.index})</p>
+                    <p className="text-gray-400 text-sm">{item.description || item.alt}</p>
+                  </div>
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={() => handleEdit(item)}
+                      className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-sm"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(item.id)}
+                      className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-white text-sm"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    // Main App Component
+    const App = () => {
+      const [data, setData] = useState(initialData);
+
+      return (
+        <BrowserRouter>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<HomePage projects={data.projects} blogs={data.blogs} gallery={data.gallery} />} />
+            <Route path="/projects" element={<ProjectsPage projects={data.projects} />} />
+            <Route path="/blog" element={<BlogPage blogs={data.blogs} />} />
+            <Route path="/gallery" element={<GalleryPage gallery={data.gallery} />} />
+            <Route path="/admin" element={<AdminPanel data={data} setData={setData} />} />
+          </Routes>
+          <footer className="text-center text-gray-500 text-sm py-8 bg-black/50">
+            © 2025 DX Portfolio •
+            <a href="#" className="text-indigo-400 hover:underline">GitHub</a> •
+            <a href="#" className="text-indigo-400 hover:underline">LinkedIn</a> •
+            <a href="#" className="text-indigo-400 hover:underline">ResearchGate</a>
+          </footer>
+        </BrowserRouter>
+      );
+    };
+
+    // Render the app
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>
