@@ -55,14 +55,14 @@ async function loadSection(sectionId) {
         content.innerHTML = '';
         
         // Load section HTML
-        const response = await fetch(`sections/${sectionId}.html`);
+        const response = await fetch(`${sectionId}.html`); // Updated: Removed 'sections/'
         if (!response.ok) throw new Error(`Failed to load ${sectionId}.html`);
         const sectionHtml = await response.text();
         
         // Load footer for contact section
         let footerHtml = '';
         if (sectionId === 'contact') {
-            const footerResponse = await fetch('sections/footer.html');
+            const footerResponse = await fetch('footer.html'); // Updated: Removed 'sections/'
             if (!footerResponse.ok) throw new Error('Failed to load footer.html');
             footerHtml = await footerResponse.text();
         }
