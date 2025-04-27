@@ -1,13 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DX Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devesh Kaushal - Professional Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/solid.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/brands.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="css/styles.css"/>
 </head>
-<body class="bg-gradient-to-tr from-gray-900 via-black to-gray-900 text-white">
-  <div id="root"></div>
-  <script type="module" src="/src/main.jsx"></script>
+<body class="overflow-x-hidden">
+    <!-- Progress bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Dark Mode Toggle Button -->
+    <button id="darkModeToggle" class="theme-toggle" aria-label="Toggle dark mode" data-tooltip="Toggle dark mode">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Back to top button -->
+    <button id="backToTop" class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <div class="flex min-h-screen">
+        <nav class="bg-white text-gray-700 fixed h-full p-4 transition-all duration-300 w-48 flex flex-col shadow-lg z-20 border-r border-gray-200" id="navbar" role="navigation" aria-label="Main navigation">
+            <!-- Nav indicator -->
+            <div class="nav-indicator" id="navIndicator"></div>
+            
+            <div class="mb-6">
+                <h1 class="text-lg font-semibold text-blue-600">Devesh Kaushal</h1>
+                <p class="text-xs text-gray-500 text-muted">Aspiring Software Engineer</p>
+            </div>
+            
+            <button class="flex items-center justify-between p-2 bg-gray-100 text-gray-700 rounded mb-6 w-full hover:bg-gray-200 transition-colors menu-button" onclick="toggleNavbar()" aria-label="Collapse menu">
+                <span class="nav-text font-medium text-sm">Menu</span>
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <ul class="flex flex-col space-y-1 relative">
+                <li>
+                    <a href="#home" class="nav-link flex items-center p-2 rounded hover:bg-gray-100 text-gray-700 hover:text-blue-600 transition-colors text-sm" aria-label="Navigate to Home section">
+                        <i class="fas fa-home mr-2"></i>
+                        <span class="nav-text">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#hardware_project" class="nav-link flex items-center p-2 rounded hover:bg-gray-100 text-gray-700 hover:text-blue-600 transition-colors text-sm" onclick="loadSection('hardware_project')" aria-label="Navigate to Hardware Project section">
+                        <i class="fas fa-microchip mr-2"></i>
+                        <span class="nav-text">Hardware Project</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#research" class="nav-link flex items-center p-2 rounded hover:bg-gray-100 text-gray-700 hover:text-blue-600 transition-colors text-sm" onclick="loadSection('research')" aria-label="Navigate to Research section">
+                        <i class="fas fa-flask mr-2"></i>
+                        <span class="nav-text">Research</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#publication" class="nav-link flex items-center p-2 rounded hover:bg-gray-100 text-gray-700 hover:text-blue-600 transition-colors text-sm" onclick="loadSection('publication')" aria-label="Navigate to Publication section">
+                        <i class="fas fa-book mr-2"></i>
+                        <span class="nav-text">Publication</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#gallery" class="nav-link flex items-center p-2 rounded hover:bg-gray-100 text-gray-700 hover:text-blue-600 transition-colors text-sm" onclick="loadSection('gallery')" aria-label="Navigate to Gallery section">
+                        <i class="fas fa-image mr-2"></i>
+                        <span class="nav-text">Gallery</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#projects" class="nav-link flex items-center p-2 rounded hover:bg-gray-100 text-gray-700 hover:text-blue-600 transition-colors text-sm" onclick="loadSection('projects')" aria-label="Navigate to Projects section">
+                        <i class="fas fa-briefcase mr-2"></i>
+                        <span class="nav-text">Projects</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#achievements" class="nav-link flex items-center p-2 rounded hover:bg-gray-100 text-gray-700 hover:text-blue-600 transition-colors text-sm" onclick="loadSection('achievements')" aria-label="Navigate to Achievements section">
+                        <i class="fas fa-trophy mr-2"></i>
+                        <span class="nav-text">Achievements</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#blog" class="nav-link flex items-center p-2 rounded hover:bg-gray-100 text-gray-700 hover:text-blue-600 transition-colors text-sm" onclick="loadSection('blog')" aria-label="Navigate to Blog section">
+                        <i class="fas fa-blog mr-2"></i>
+                        <span class="nav-text">Blog</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#contact" class="nav-link flex items-center p-2 rounded hover:bg-gray-100 text-gray-700 hover:text-blue-600 transition-colors text-sm" onclick="loadSection('contact')" aria-label="Navigate to Contact section">
+                        <i class="fas fa-envelope mr-2"></i>
+                        <span class="nav-text">Contact</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="mt-auto pt-6 border-t border-gray-200 dark:border-gray-700">
+                <p class="text-xs text-gray-500 text-muted mb-3">Connect with me</p>
+                <div class="flex space-x-3">
+                    <a href="mailto:devesh.kaushal@example.com" class="text-gray-500 hover:text-blue-600 transition-colors tooltip" data-tooltip="Email me" aria-label="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                    <a href="https://linkedin.com/in/deveshkaushal" class="text-gray-500 hover:text-blue-600 transition-colors tooltip" data-tooltip="LinkedIn Profile" target="_blank" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://github.com/deveshkaushal" class="text-gray-500 hover:text-blue-600 transition-colors tooltip" data-tooltip="GitHub Profile" target="_blank" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://twitter.com/deveshkaushal" class="text-gray-500 hover:text-blue-600 transition-colors tooltip" data-tooltip="Twitter Profile" target="_blank" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <main class="p-12 transition-all duration-300 ml-48 w-[calc(100%-12rem)]" id="content">
+            <!-- Home Section -->
+            <section id="home" class="section py-12">
+                <div class="max-w-4xl mx-auto">
+                    <!-- Intro Subsection -->
+                    <div class="text-center mb-16">
+                        <div class="mb-8 inline-block relative animate__animated animate__fadeInDown">
+                            <span class="inline-block relative">
+                                <img src="New folder/2.jpg" alt="Profile Picture" class="rounded-full w-36 h-36 border-4 border-blue-500 shadow-xl object-cover"/>
+                                <span class="absolute bottom-1 right-1 w-5 h-5 rounded-full bg-green-400 border-2 border-white"></span>
+                            </span>
+                        </div>
+                        <h1 class="text-4xl md:text-5xl font-extrabold mb-4 animate__animated animate__fadeInUp">
+                            Hello, I'm <span class="highlight">Devesh Kaushal</span>
+                        </h1>
+                        <div class="text-gray-400 text-base md:text-lg font-medium flex flex-wrap justify-center gap-2 mb-6 animate__animated animate__fadeInUp animate__delay-1s">
+                            <span>AI</span>
+                            <span>•</span>
+                            <span>Machine Learning</span>
+                            <span>•</span>
+                            <span>Radar System</span>
+                            <span>•</span>
+                            <span>Signal Processing</span>
+                            <span>•</span>
+                            <span>Drone System</span>
+                        </div>
+                        <p class="text-gray-300 text-base md:text-lg leading-relaxed mb-8 animate__animated animate__fadeInUp animate__delay-2s">
+                            Innovating at the intersection of defense, technology, and public service.
+                        </p>
+                        <div class="flex flex-wrap justify-center gap-4 animate__animated animate__fadeInUp animate__delay-3s">
+                            <a href="#projects" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-300 shadow-lg flex items-center space-x-2" onclick="loadSection('projects')">
+                                <i class="fas fa-eye"></i><span>View Projects</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- About Subsection -->
+                    <div class="mb-16">
+                        <h2 class="text-3xl font-bold text-blue-600 mb-6 relative inline-block">
+                            About Me
+                            <span class="absolute bottom-0 left-0 w-1/2 h-1 bg-blue-200"></span>
+                        </h2>
+                        <div class="bg-white rounded-xl shadow-md p-6 card">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div class="md:col-span-2">
+                                    <p class="text-gray-700 leading-relaxed mb-4">
+                                        A 3rd-year engineering student fueled by a passion for solving complex challenges, specializing in dual-use innovations that bridge defense and civilian needs. I am dedicated to building transformative technologies that advance both security and serve the greater public good. With a strong head for research and a drive for innovation, I constantly seek to push boundaries and translate cutting-edge ideas into practical solutions.
+                                    </p>
+                                    <div class="mt-6">
+                                        <h3 class="text-xl font-semibold text-gray-800 mb-3">Key Facts</h3>
+                                        <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 list-disc list-inside text-gray-700">
+                                            <li>3rd-year Computer Science and Engineering student</li>
+                                            <li>Specialized in dual-use innovation (defense + civilian)</li>
+                                            <li>Strong research mindset with hands-on project experience</li>
+                                            <li>Built intelligent systems, drones, and wireless solutions</li>
+                                            <li>Dedicated to building technology for the greater public good</li>
+                                            <li>Lifelong learner, always pushing boundaries</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="flex justify-center">
+                                    <img src="New folder/3.jpg" alt="About Me" class="rounded-lg shadow-md max-h-80 object-cover"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Skills Subsection -->
+                    <div>
+                        <h2 class="text-3xl font-bold text-blue-600 mb-6 relative inline-block">
+                            Skills & Tech Stack
+                            <span class="absolute bottom-0 left-0 w-1/2 h-1 bg-blue-200"></span>
+                        </h2>
+                        <div class="bg-white rounded-xl shadow-md p-6 card">
+                            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+                                <div class="skill-item" data-skill="Python">
+                                    <span class="skill-text">Python</span>
+                                </div>
+                                <div class="skill-item" data-skill="TensorFlow">
+                                    <span class="skill-text">TensorFlow</span>
+                                </div>
+                                <div class="skill-item" data-skill="OpenCV">
+                                    <span class="skill-text">OpenCV</span>
+                                </div>
+                                <div class="skill-item" data-skill="Embedded C">
+                                    <span class="skill-text">Embedded C</span>
+                                </div>
+                                <div class="skill-item" data-skill="MATLAB">
+                                    <span class="skill-text">MATLAB</span>
+                                </div>
+                                <div class="skill-item" data-skill="LoRa">
+                                    <span class="skill-text">LoRa</span>
+                                </div>
+                                <div class="skill-item" data-skill="Flutter">
+                                    <span class="skill-text">Flutter</span>
+                                </div>
+                                <div class="skill-item" data-skill="Git">
+                                    <span class="skill-text">Git</span>
+                                </div>
+                                <div class="skill-item" data-skill="Arduino">
+                                    <span class="skill-text">Arduino</span>
+                                </div>
+                                <div class="skill-item" data-skill="Linux">
+                                    <span class="skill-text">Linux</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <script src="js/main.js"></script>
 </body>
 </html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Devesh Kaushal - Portfolio</title>
+
+  <!-- TailwindCSS + Animate.css -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+  <style>
+    body {
+      background-color: #0f172a; /* Deep Navy */
+      color: #cbd5e1; /* Light Grayish */
+      font-family: 'Inter', sans-serif;
+    }
+    .highlight {
+      background: linear-gradient(90deg, #3b82f6, #06b6d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
+</head>
+
+<body class="overflow-x-hidden">
+
+  <section id="home" class="min-h-screen flex items-center justify-center px-6">
+    <div class="max-w-3xl w-full text-center">
+      
+      <!-- Profile Image -->
+      <div class="mb-8 inline-block relative animate__animated animate__fadeInDown">
+        <span class="inline-block relative">
+          <img src="New folder/2.jpg" alt="Profile Picture" class="rounded-full w-36 h-36 border-4 border-blue-500 shadow-xl object-cover"/>
+          <span class="absolute bottom-1 right-1 w-5 h-5 rounded-full bg-green-400 border-2 border-white"></span>
+        </span>
+      </div>
+
+      <!-- Name and Title -->
+      <h1 class="text-4xl md:text-5xl font-extrabold mb-4 animate__animated animate__fadeInUp">
+        Hello, I'm <span class="highlight">Devesh Kaushal</span>
+      </h1>
+
+      <!-- Skills -->
+      <div class="text-gray-400 text-base md:text-lg font-medium flex flex-wrap justify-center gap-2 mb-6 animate__animated animate__fadeInUp animate__delay-1s">
+        <span>AI</span>
+        <span>•</span>
+        <span>Machine Learning</span>
+        <span>•</span>
+        <span>Radar System</span>
+        <span>•</span>
+        <span>Signal Processing</span>
+        <span>•</span>
+        <span>Drone System</span>
+      </div>
+
+      <p class="text-gray-300 text-base md:text-lg leading-relaxed mb-8 animate__animated animate__fadeInUp animate__delay-2s">
+        Innovating at the intersection of defense, technology, and public service.
+      </p>
+
+
+      
+      
+      <!-- Buttons -->
+      <div class="flex flex-wrap justify-center gap-4 animate__animated animate__fadeInUp animate__delay-3s mb-8">
+        <a href="#projects" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-300 shadow-lg flex items-center space-x-2">
+          <i class="fas fa-eye"></i><span>View Projects</span>
+        </a>
+        <!-- Optional Resume Button -->
+        <!--
+        <a href="/resume.pdf" target="_blank" class="px-6 py-3 border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white rounded-lg transition duration-300 shadow-md flex items-center space-x-2">
+          <i class="fas fa-file-alt"></i><span>Download Resume</span>
+        </a>
+        -->
+      </div>
+
+      <!-- Scroll Down Indicator -->
+      <div class="flex justify-center animate-bounce">
+        <a href="#about" class="text-gray-500 hover:text-blue-400 transition">
+          <i class="fas fa-chevron-down text-2xl"></i>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+</body>
+</html>
