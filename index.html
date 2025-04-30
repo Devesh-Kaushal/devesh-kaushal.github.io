@@ -49,9 +49,21 @@
                     </a>
                 </li>
                 <li>
+                    <a href="#achievements" class="nav-link flex items-center p-2 rounded hover:bg-gray-100 text-gray-700 hover:text-blue-600 transition-colors text-sm" onclick="loadSection('achievements')" aria-label="Navigate to Achievements section">
+                        <i class="fas fa-trophy mr-2"></i>
+                        <span class="nav-text">Achievements</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#projects" class="nav-link flex items-center p-2 rounded hover:bg-gray-100 text-gray-700 hover:text-blue-600 transition-colors text-sm" onclick="loadSection('projects')" aria-label="Navigate to Projects section">
+                        <i class="fas fa-briefcase mr-2"></i>
+                        <span class="nav-text">Projects</span>
+                    </a>
+                </li>
+                <li>
                     <a href="#hardware_project" class="nav-link flex items-center p-2 rounded hover:bg-gray-100 text-gray-700 hover:text-blue-600 transition-colors text-sm" onclick="loadSection('hardware_project')" aria-label="Navigate to Hardware Project section">
                         <i class="fas fa-microchip mr-2"></i>
-                        <span class="nav-text">Hardware Project</span>
+                        <span class="nav-text">Hardware Projects</span>
                     </a>
                 </li>
                 <li>
@@ -63,31 +75,19 @@
                 <li>
                     <a href="#publication" class="nav-link flex items-center p-2 rounded hover:bg-gray-100 text-gray-700 hover:text-blue-600 transition-colors text-sm" onclick="loadSection('publication')" aria-label="Navigate to Publication section">
                         <i class="fas fa-book mr-2"></i>
-                        <span class="nav-text">Publication</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#gallery" class="nav-link flex items-center p-2 rounded hover:bg-gray-100 text-gray-700 hover:text-blue-600 transition-colors text-sm" onclick="loadSection('gallery')" aria-label="Navigate to Gallery section">
-                        <i class="fas fa-image mr-2"></i>
-                        <span class="nav-text">Gallery</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#projects" class="nav-link flex items-center p-2 rounded hover:bg-gray-100 text-gray-700 hover:text-blue-600 transition-colors text-sm" onclick="loadSection('projects')" aria-label="Navigate to Projects section">
-                        <i class="fas fa-briefcase mr-2"></i>
-                        <span class="nav-text">Projects</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#achievements" class="nav-link flex items-center p-2 rounded hover:bg-gray-100 text-gray-700 hover:text-blue-600 transition-colors text-sm" onclick="loadSection('achievements')" aria-label="Navigate to Achievements section">
-                        <i class="fas fa-trophy mr-2"></i>
-                        <span class="nav-text">Achievements</span>
+                        <span class="nav-text">Publications</span>
                     </a>
                 </li>
                 <li>
                     <a href="#blog" class="nav-link flex items-center p-2 rounded hover:bg-gray-100 text-gray-700 hover:text-blue-600 transition-colors text-sm" onclick="loadSection('blog')" aria-label="Navigate to Blog section">
                         <i class="fas fa-blog mr-2"></i>
                         <span class="nav-text">Blog</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#gallery" class="nav-link flex items-center p-2 rounded hover:bg-gray-100 text-gray-700 hover:text-blue-600 transition-colors text-sm" onclick="loadSection('gallery')" aria-label="Navigate to Gallery section">
+                        <i class="fas fa-image mr-2"></i>
+                        <span class="nav-text">Gallery</span>
                     </a>
                 </li>
                 <li>
@@ -146,11 +146,7 @@
                         <p class="text-gray-300 text-base md:text-lg leading-relaxed mb-8 animate__animated animate__fadeInUp animate__delay-2s">
                             Innovating at the intersection of defense, technology, and public service.
                         </p>
-                        <div class="flex flex-wrap justify-center gap-4 animate__animated animate__fadeInUp animate__delay-3s">
-                            <a href="#projects" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-300 shadow-lg flex items-center space-x-2" onclick="loadSection('projects')">
-                                <i class="fas fa-eye"></i><span>View Projects</span>
-                            </a>
-                        </div>
+                        
                     </div>
 
                     <!-- About Subsection -->
@@ -193,37 +189,38 @@
                         <div class="bg-white rounded-xl shadow-md p-6 card">
                             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
                                 <div class="skill-item" data-skill="Python">
-                                    <span class="skill-text">Python</span>
+                                    <span class="skill-text">Artifical Intelligence</span>
                                 </div>
                                 <div class="skill-item" data-skill="TensorFlow">
                                     <span class="skill-text">TensorFlow</span>
                                 </div>
+                                <div class="skill-item" data-skill="PyTorch">
+                                    <span class="skill-text">Machine Learning</span>
+                                </div>
                                 <div class="skill-item" data-skill="OpenCV">
-                                    <span class="skill-text">OpenCV</span>
-                                </div>
-                                <div class="skill-item" data-skill="Embedded C">
-                                    <span class="skill-text">Embedded C</span>
-                                </div>
-                                <div class="skill-item" data-skill="MATLAB">
-                                    <span class="skill-text">MATLAB</span>
-                                </div>
-                                <div class="skill-item" data-skill="LoRa">
-                                    <span class="skill-text">LoRa</span>
+                                    <span class="skill-text">Data Science</span>
                                 </div>
                                 <div class="skill-item" data-skill="Flutter">
+                                    <span class="skill-text">Signal Processing</span>
+                                </div>
+                                <div class="skill-item" data-skill="Firebase">
+                                    <span class="skill-text">Computer Vision</span>
+                                </div>
+                                <div class="skill-item" data-skill="Machine Learning">
                                     <span class="skill-text">Flutter</span>
                                 </div>
+                                <div class="skill-item" data-skill="Data Science">
+                                    <span class="skill-text">PyTorch</span>
+                                </div>
                                 <div class="skill-item" data-skill="Git">
-                                    <span class="skill-text">Git</span>
+                                    <span class="skill-text">Git / Github</span>
                                 </div>
-                                <div class="skill-item" data-skill="Arduino">
-                                    <span class="skill-text">Arduino</span>
-                                </div>
-                                <div class="skill-item" data-skill="Linux">
-                                    <span class="skill-text">Linux</span>
+                                <div class="skill-item" data-skill="AI">
+                                    <span class="skill-text">TensorFlow</span>
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </section>
